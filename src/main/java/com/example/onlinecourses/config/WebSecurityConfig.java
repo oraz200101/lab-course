@@ -1,5 +1,6 @@
 package com.example.onlinecourses.config;
 
+import com.example.onlinecourses.models.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,7 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
+                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

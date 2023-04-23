@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
     @Query("select (count(u) > 0) from User u where u.email = ?1")

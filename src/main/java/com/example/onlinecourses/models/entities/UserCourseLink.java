@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_course_link",schema = "lab_course")
+@Table(name = "user_course_link", schema = "lab_course")
 public class UserCourseLink extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

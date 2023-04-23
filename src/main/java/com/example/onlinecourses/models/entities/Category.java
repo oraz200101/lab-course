@@ -12,10 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "categories",schema = "lab_course")
+@Table(name = "categories", schema = "lab_course")
 public class Category extends BaseEntity {
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY,cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<Course> courses;
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "tags",schema = "lab_course")
+@Table(name = "tags", schema = "lab_course")
 public class Tag extends BaseEntity {
     @Column(name = "name")
     private String name;

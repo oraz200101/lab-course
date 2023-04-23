@@ -17,7 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "courses",schema = "lab_course")
+@Table(name = "courses", schema = "lab_course")
 public class Course extends BaseEntity {
     @Column(name = "title")
     private String title;

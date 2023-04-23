@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "users",schema = "lab_course")
+@Table(name = "users", schema = "lab_course")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,8 +44,8 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.LAZY)
-    @CollectionTable(name = "user_role",schema = "lab_course", joinColumns = @JoinColumn(name = "user_id"))
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", schema = "lab_course", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "modules",schema = "lab_course")
+@Table(name = "modules", schema = "lab_course")
 public class Module extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id")
