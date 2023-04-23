@@ -42,8 +42,9 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/admin/**").hasAuthority(Role.ADMIN.name())
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/teacher/**").hasAuthority(Role.TEACHER.name())
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
