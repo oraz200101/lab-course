@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:postgres}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:shakee2001}
+  flyway:
+    enabled: true
+    validate-on-migrate: true
