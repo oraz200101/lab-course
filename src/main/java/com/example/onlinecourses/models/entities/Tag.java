@@ -4,7 +4,6 @@ import com.example.onlinecourses.models.entities.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 
 @Entity
@@ -17,6 +16,9 @@ import java.util.List;
 public class Tag extends BaseEntity {
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<Course> courses;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 }

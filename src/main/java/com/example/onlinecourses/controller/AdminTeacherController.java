@@ -12,20 +12,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admin/teacher")
 @RequiredArgsConstructor
-public class AdminController {
+public class AdminTeacherController {
     private final UserService userService;
-    @PostMapping("/teacher/create")
-    public ResponseEntity<?> createTeacher(@RequestBody @Valid UserRegisterDto userRegisterDto){
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createTeacher(@RequestBody @Valid UserRegisterDto userRegisterDto) {
         userService.createTeacher(userRegisterDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
-    @GetMapping("/teacher/all")
+    @GetMapping("/all")
     public ResponseEntity<Page<UserResponseDto>> getTeachers(@RequestParam(defaultValue = "0", name = "page") Integer page,
-                                                            @RequestParam(defaultValue = "10", name = "count") Integer count){
-        return ResponseEntity.ok(userService.getTeachers(PageRequest.of(page,count)));
+                                                             @RequestParam(defaultValue = "10", name = "count") Integer count) {
+        return ResponseEntity.ok(userService.getTeachers(PageRequest.of(page, count)));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getById(id));
+    }
+
 
 }

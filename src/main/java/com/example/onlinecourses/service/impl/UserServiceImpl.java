@@ -28,10 +28,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 import static com.example.onlinecourses.constants.validation.UserValidationConstants.USER_EMAIL_ALREADY_EXISTS_MESSAGE;
 import static com.example.onlinecourses.constants.validation.UserValidationConstants.USER_PASSWORDS_NOT_EQUAL_MESSAGE;
@@ -85,9 +84,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserResponseDto> getTeachers(Pageable pageable) {
         List<User> users = userRepository.findAll();
-        Set<Role> roles=new HashSet<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(Role.TEACHER);
-        List<User> teachers=users.stream().filter(u->u.getRoles().equals(roles)).toList();
+        List<User> teachers = users.stream().filter(u -> u.getRoles().equals(roles)).toList();
         return new PageImpl<>(userMapper.mapToUserResponseDtos(teachers), pageable, teachers.size());
     }
 

@@ -30,6 +30,7 @@ public class Course extends BaseEntity {
 
     @Column(name = "rating")
     private BigDecimal rating;
+
     @CreationTimestamp
     @Column(name = "date_time_create", updatable = false)
     private LocalDateTime dateTimeCreate;
@@ -48,9 +49,6 @@ public class Course extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
