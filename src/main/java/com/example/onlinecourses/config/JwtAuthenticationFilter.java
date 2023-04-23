@@ -1,6 +1,5 @@
 package com.example.onlinecourses.config;
 
-import com.example.onlinecourses.exception.domain.JwtTokenInvalidException;
 import com.example.onlinecourses.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
