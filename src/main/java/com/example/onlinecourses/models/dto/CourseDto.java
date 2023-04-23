@@ -23,11 +23,11 @@ public class CourseDto {
 
     private LocalDateTime dateTimeUpdate;
 
-    private List<ObjectiveDto> objectives;
+    private List<ObjectiveDto> objectiveDtos;
 
     private Long categoryId;
 
-
+    private List<SectionDto> sectionDtos;
 
 
 }

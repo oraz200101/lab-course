@@ -5,7 +5,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ObjectiveDto {
+public class ModuleDto {
     private String title;
 
+    private String videoLink;
+
+    private Long duration;
 }
