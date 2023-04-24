@@ -43,7 +43,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/admin/**").hasAuthority(Role.ADMIN.name())
-                .requestMatchers("/api/auth/**","/api/*").permitAll()
+                .requestMatchers("/api/auth/**","/api/**").permitAll()
                 .requestMatchers("/api/teacher/**").hasAuthority(Role.TEACHER.name())
                 .anyRequest().authenticated()
                 .and()
