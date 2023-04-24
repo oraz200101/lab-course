@@ -49,9 +49,11 @@ public interface CourseMapper {
 
     @Mapping(source = "sectionDtos", target = "sections")
     @Mapping(source = "objectiveDtos", target = "objectives")
+    @Mapping(source = "categoryId", target = "category.id")
     Course mapToCourseEntity(CourseDto courseDto);
 
     @Mapping(source = "sections", target = "sectionDtos")
     @Mapping(source = "objectives", target = "objectiveDtos")
+    @Mapping(source = "category.id", target = "categoryId")
     CourseDto mapToCourseDto(Course course);
 }

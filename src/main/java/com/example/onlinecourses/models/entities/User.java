@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,6 +49,8 @@ public class User extends BaseEntity implements UserDetails {
     @CollectionTable(name = "user_role", schema = "lab_course", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<UserCourseLink> userCourseLinks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

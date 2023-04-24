@@ -13,7 +13,7 @@ import lombok.*;
 @Table(name = "user_course_link", schema = "lab_course")
 public class UserCourseLink extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "course_id")
     private Course course;
 
