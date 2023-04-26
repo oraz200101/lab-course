@@ -11,3 +11,7 @@ spring:
   flyway:
     enabled: true
     validate-on-migrate: true
+  servlet:
+    multipart:
+      maxFileSize: 5MB
+      maxRequestSize: 5MB

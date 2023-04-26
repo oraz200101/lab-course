@@ -1,13 +1,8 @@
 package com.example.onlinecourses.mapper;
 
-import com.example.onlinecourses.models.dto.CourseDto;
-import com.example.onlinecourses.models.dto.ModuleDto;
-import com.example.onlinecourses.models.dto.ObjectiveDto;
-import com.example.onlinecourses.models.dto.SectionDto;
-import com.example.onlinecourses.models.entities.Course;
+import com.example.onlinecourses.models.dto.*;
+import com.example.onlinecourses.models.entities.*;
 import com.example.onlinecourses.models.entities.Module;
-import com.example.onlinecourses.models.entities.Objective;
-import com.example.onlinecourses.models.entities.Section;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -56,4 +51,6 @@ public interface CourseMapper {
     @Mapping(source = "objectives", target = "objectiveDtos")
     @Mapping(source = "category.id", target = "categoryId")
     CourseDto mapToCourseDto(Course course);
+
+    FileDto mapToFileDto(FileStorage fileStorage);
 }

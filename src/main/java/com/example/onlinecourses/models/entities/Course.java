@@ -30,6 +30,9 @@ public class Course extends BaseEntity {
 
     @Column(name = "rating")
     private BigDecimal rating;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "file_id")
+    private FileStorage fileStorage;
 
     @CreationTimestamp
     @Column(name = "date_time_create", updatable = false)
