@@ -16,6 +16,8 @@ public interface UserService extends UserDetailsService {
 
     void createTeacher(UserRegisterDto userRegisterDto);
 
+
+
     Page<UserResponseDto> getTeachers(Pageable pageable);
 
     UserResponseDto getById(Long id);
