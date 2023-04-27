@@ -13,7 +13,7 @@ import com.example.onlinecourses.models.enums.Role;
 import com.example.onlinecourses.repository.UserRepository;
 import com.example.onlinecourses.service.AuthenticationFacade;
 import com.example.onlinecourses.service.UserService;
-import com.example.onlinecourses.utils.DateUtil;
+import com.example.onlinecourses.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         user.getRoles().add(Role.USER);
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
-        user.setDateOfBirth(DateUtil.parseToLocalDateTime(userRegisterDto.getDateOfBirth()));
+        user.setDateOfBirth(DateUtils.parseToLocalDateTime(userRegisterDto.getDateOfBirth()));
         userRepository.save(user);
     }
 

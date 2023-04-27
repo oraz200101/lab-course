@@ -3,7 +3,7 @@ package com.example.onlinecourses.utils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class DateUtil {
+public class DateUtils {
     private static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
 
     public static LocalDate parseToLocalDateTime(String value) {

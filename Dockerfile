@@ -1,4 +1,5 @@
-FROM openjdk:17
+FROM openjdk:17 AS builder
 VOLUME /tmp
-COPY build/libs/online-courses-0.0.1-SNAPSHOT.jar /online-courses-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","online-courses-0.0.1-SNAPSHOT.jar"]
+CMD mkdirs /app/files
+ADD ./build/libs/online-courses-0.0.1-SNAPSHOT.jar app/online-courses-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java","-XX:+UseSerialGC", "-Xss512k", "-Xmx64M","-jar","online-courses-0.0.1-SNAPSHOT.jar"]
