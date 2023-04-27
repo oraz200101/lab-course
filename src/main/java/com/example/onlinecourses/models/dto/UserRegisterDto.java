@@ -15,7 +15,7 @@ public class UserRegisterDto {
     @NotEmpty
     private String fullName;
 
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
 
     @Email
     @NotEmpty

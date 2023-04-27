@@ -5,13 +5,14 @@ import com.example.onlinecourses.models.dto.UserResponseDto;
 import com.example.onlinecourses.models.entities.User;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, builder = @Builder(disableBuilder = true))
 public interface UserMapper {
-
+    @Mapping(target = "dateOfBirth",ignore = true)
     User mapToUserEntity(UserRegisterDto userRegisterDto);
 
     UserResponseDto mapToUserResponseDto(User user);
