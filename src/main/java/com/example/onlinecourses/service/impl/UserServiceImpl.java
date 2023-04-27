@@ -85,6 +85,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponseDto updateProfile(UserRegisterDto userRegisterDto) {
+        User user=authenticationFacade.getCurrentPrincipal();
+        user=userMapper.mapToUserEntity(userRegisterDto);
+        userRepository.save(user);
+        return userMapper.mapToUserResponseDto(user);
+    }
+
+    @Override
     public Page<UserResponseDto> getTeachers(Pageable pageable) {
         List<User> users = userRepository.findAll();
         Set<Role> roles = new HashSet<>();
