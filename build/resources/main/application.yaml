@@ -15,3 +15,6 @@ spring:
     multipart:
       maxFileSize: 5MB
       maxRequestSize: 5MB
+server:
+  servlet:
+    contextPath: ${ROOT_URL:/api}
