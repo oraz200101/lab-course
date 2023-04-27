@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin/teacher")
+@RequestMapping("/admin/teacher")
 @RequiredArgsConstructor
 public class AdminTeacherController {
     private final UserService userService;

@@ -11,6 +11,7 @@ import com.example.onlinecourses.models.dto.UserResponseDto;
 import com.example.onlinecourses.models.entities.User;
 import com.example.onlinecourses.models.enums.Role;
 import com.example.onlinecourses.repository.UserRepository;
+import com.example.onlinecourses.service.AuthenticationFacade;
 import com.example.onlinecourses.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
@@ -44,6 +45,8 @@ public class UserServiceImpl implements UserService {
     private final JwtGenerator jwtGenerator;
     private final AuthenticationManager authenticationManager;
 
+    private final AuthenticationFacade authenticationFacade;
+
 
     @Override
     public AuthResponseDto loginUser(UserLoginDto userLoginDto) {
@@ -54,7 +57,7 @@ public class UserServiceImpl implements UserService {
                 ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        return new AuthResponseDto(token);
+        return new AuthResponseDto(token, authenticationFacade.getCurrentPrincipal().getRoles());
     }
 
     @Override

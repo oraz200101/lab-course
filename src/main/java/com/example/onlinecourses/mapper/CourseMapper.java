@@ -51,6 +51,8 @@ public interface CourseMapper {
     @Mapping(source = "objectives", target = "objectiveDtos")
     @Mapping(source = "category.id", target = "categoryId")
     CourseDto mapToCourseDto(Course course);
+    @Mapping(source = "author.fullName",target = "author")
+    CourseResponseDto mapToCourseResponseDto(Course course);
 
     FileDto mapToFileDto(FileStorage fileStorage);
 }

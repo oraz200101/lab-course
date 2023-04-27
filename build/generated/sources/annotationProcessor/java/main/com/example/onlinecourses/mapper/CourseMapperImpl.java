@@ -1,16 +1,19 @@
 package com.example.onlinecourses.mapper;
 
 import com.example.onlinecourses.models.dto.CourseDto;
+import com.example.onlinecourses.models.dto.CourseResponseDto;
 import com.example.onlinecourses.models.dto.FileDto;
 import com.example.onlinecourses.models.dto.ModuleDto;
 import com.example.onlinecourses.models.dto.ObjectiveDto;
 import com.example.onlinecourses.models.dto.SectionDto;
 import com.example.onlinecourses.models.entities.Category;
 import com.example.onlinecourses.models.entities.Course;
+import com.example.onlinecourses.models.entities.CourseLanguage;
 import com.example.onlinecourses.models.entities.FileStorage;
 import com.example.onlinecourses.models.entities.Module;
 import com.example.onlinecourses.models.entities.Objective;
 import com.example.onlinecourses.models.entities.Section;
+import com.example.onlinecourses.models.entities.User;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -18,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-04-26T21:26:01+0600",
+    date = "2023-04-27T03:42:43+0600",
     comments = "version: 1.5.4.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 @Component
@@ -208,6 +211,10 @@ public class CourseMapperImpl implements CourseMapper {
         course.setDescription( courseDto.getDescription() );
         course.setPrice( courseDto.getPrice() );
         course.setRating( courseDto.getRating() );
+        if ( courseDto.getLanguage() != null ) {
+            course.setLanguage( Enum.valueOf( CourseLanguage.class, courseDto.getLanguage() ) );
+        }
+        course.setTotalHours( courseDto.getTotalHours() );
 
         return course;
     }
@@ -228,8 +235,34 @@ public class CourseMapperImpl implements CourseMapper {
         courseDto.setDescription( course.getDescription() );
         courseDto.setPrice( course.getPrice() );
         courseDto.setRating( course.getRating() );
+        if ( course.getLanguage() != null ) {
+            courseDto.setLanguage( course.getLanguage().name() );
+        }
+        courseDto.setTotalHours( course.getTotalHours() );
 
         return courseDto;
+    }
+
+    @Override
+    public CourseResponseDto mapToCourseResponseDto(Course course) {
+        if ( course == null ) {
+            return null;
+        }
+
+        CourseResponseDto courseResponseDto = new CourseResponseDto();
+
+        courseResponseDto.setAuthor( courseAuthorFullName( course ) );
+        courseResponseDto.setId( course.getId() );
+        courseResponseDto.setTitle( course.getTitle() );
+        courseResponseDto.setDescription( course.getDescription() );
+        courseResponseDto.setPrice( course.getPrice() );
+        courseResponseDto.setRating( course.getRating() );
+        courseResponseDto.setTotalHours( course.getTotalHours() );
+        if ( course.getLanguage() != null ) {
+            courseResponseDto.setLanguage( course.getLanguage().name() );
+        }
+
+        return courseResponseDto;
     }
 
     @Override
@@ -274,5 +307,20 @@ public class CourseMapperImpl implements CourseMapper {
             return null;
         }
         return id;
+    }
+
+    private String courseAuthorFullName(Course course) {
+        if ( course == null ) {
+            return null;
+        }
+        User author = course.getAuthor();
+        if ( author == null ) {
+            return null;
+        }
+        String fullName = author.getFullName();
+        if ( fullName == null ) {
+            return null;
+        }
+        return fullName;
     }
 }

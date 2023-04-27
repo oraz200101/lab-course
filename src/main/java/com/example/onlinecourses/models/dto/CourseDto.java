@@ -20,6 +20,12 @@ public class CourseDto {
 
     private BigDecimal rating;
 
+    private String language;
+
+    private Long totalHours;
+
+    private FileDto fileDto;
+
     private List<ObjectiveDto> objectiveDtos;
 
     private Long categoryId;

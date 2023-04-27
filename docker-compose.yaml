@@ -15,6 +15,7 @@ services:
     depends_on:
       - db
     environment:
+      ROOT_URL: /api
       DATABASE_HOST: db
       DATABASE_NAME: online-course
       DATABASE_USER: postgres

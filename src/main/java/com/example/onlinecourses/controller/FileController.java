@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("api/files")
+@RequestMapping("/files")
 @RequiredArgsConstructor
 public class FileController {
     private final FileStorageService fileStorageService;
@@ -24,7 +24,7 @@ public class FileController {
         return ResponseEntity.ok(mapper.mapToFileDto(fileStorage));
     }
 
-    @GetMapping("/downloadFile/{fileId}")
+    @GetMapping("/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
         FileStorage file = fileStorageService.getByFileId(fileId);
         return FileUtils.returnFile(file);

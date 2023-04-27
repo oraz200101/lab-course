@@ -34,10 +34,12 @@ public class QCourse extends EntityPathBase<Course> {
 
     public final StringPath description = createString("description");
 
-    public final QFileStorage fileStorage;
-
     //inherited
     public final NumberPath<Long> id = _super.id;
+
+    public final QFileStorage image;
+
+    public final EnumPath<CourseLanguage> language = createEnum("language", CourseLanguage.class);
 
     public final ListPath<Objective, QObjective> objectives = this.<Objective, QObjective>createList("objectives", Objective.class, QObjective.class, PathInits.DIRECT2);
 
@@ -47,7 +49,11 @@ public class QCourse extends EntityPathBase<Course> {
 
     public final ListPath<Section, QSection> sections = this.<Section, QSection>createList("sections", Section.class, QSection.class, PathInits.DIRECT2);
 
+    public final BooleanPath subscription = createBoolean("subscription");
+
     public final StringPath title = createString("title");
+
+    public final NumberPath<Long> totalHours = createNumber("totalHours", Long.class);
 
     public QCourse(String variable) {
         this(Course.class, forVariable(variable), INITS);
@@ -69,7 +75,7 @@ public class QCourse extends EntityPathBase<Course> {
         super(type, metadata, inits);
         this.author = inits.isInitialized("author") ? new QUser(forProperty("author")) : null;
         this.category = inits.isInitialized("category") ? new QCategory(forProperty("category")) : null;
-        this.fileStorage = inits.isInitialized("fileStorage") ? new QFileStorage(forProperty("fileStorage")) : null;
+        this.image = inits.isInitialized("image") ? new QFileStorage(forProperty("image")) : null;
     }
 
 }

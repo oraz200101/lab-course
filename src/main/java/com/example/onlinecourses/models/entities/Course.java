@@ -28,11 +28,22 @@ public class Course extends BaseEntity {
     @Column(name = "price")
     private Long price;
 
+    @Column(name = "subscription")
+    private Boolean subscription;
+
     @Column(name = "rating")
     private BigDecimal rating;
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
+    private CourseLanguage language;
+
+    @Column(name = "total_hours")
+    private Long totalHours;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "file_id")
-    private FileStorage fileStorage;
+    private FileStorage image;
 
     @CreationTimestamp
     @Column(name = "date_time_create", updatable = false)

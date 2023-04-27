@@ -12,5 +12,6 @@ public class FileDto {
     private String name;
     private String contentType;
     private Long size;
+    private String url;
     private Date uploadDate;
 }

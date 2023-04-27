@@ -16,24 +16,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true,
-        jsr250Enabled = true,prePostEnabled =false)
+        jsr250Enabled = true, prePostEnabled = false)
 public class WebSecurityConfig {
 
     private final JwtEntryPoint jwtEntryPoint;
 
     @Autowired
     @Lazy
-    public WebSecurityConfig( JwtEntryPoint jwtEntryPoint) {
+    public WebSecurityConfig(JwtEntryPoint jwtEntryPoint) {
         this.jwtEntryPoint = jwtEntryPoint;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors().and()
                 .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint)
@@ -42,9 +44,9 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/admin/**").hasAuthority(Role.ADMIN.name())
-                .requestMatchers("/api/auth/**","/api/**").permitAll()
-                .requestMatchers("/api/teacher/**").hasAuthority(Role.TEACHER.name())
+                .requestMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
+                .requestMatchers("/auth/**", "/public/**").permitAll()
+                .requestMatchers("/teacher/**").hasAuthority(Role.TEACHER.name())
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
@@ -57,10 +59,12 @@ public class WebSecurityConfig {
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
