@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint);
-        http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
