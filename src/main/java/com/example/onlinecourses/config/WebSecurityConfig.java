@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
-                .requestMatchers("/auth/**", "/public/**").permitAll()
+                .requestMatchers("/auth/**", "/public/**","/files/**").permitAll()
                 .requestMatchers("/teacher/**").hasAuthority(Role.TEACHER.name())
                 .anyRequest().authenticated()
                 .and()
@@ -55,18 +55,6 @@ public class WebSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-//                        .allowedMethods("POST")
-//                        .allowedHeaders("Access-Control-Allow-Origin");
-//
-//            }
-//        };
-//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

@@ -1,5 +1,6 @@
 package com.example.onlinecourses.service.impl;
 
+import com.example.onlinecourses.exception.domain.NotFoundException;
 import com.example.onlinecourses.mapper.CategoryMapper;
 import com.example.onlinecourses.models.dto.CategoryDto;
 import com.example.onlinecourses.models.dto.TagDto;
@@ -34,13 +35,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getById(Long id) {
-        Category category = repository.findById(id).orElseThrow(() -> new RuntimeException("category not found with id"));
+        Category category = repository.findById(id).orElseThrow(() -> new NotFoundException("category with id not found"));
         return mapper.mapToCategoryDto(category);
     }
 
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto) {
-        Category category = repository.findById(categoryDto.getId()).orElseThrow(() -> new RuntimeException("category not found with id"));
+        Category category = repository.findById(categoryDto.getId()).orElseThrow(() -> new NotFoundException("category with id not found"));
         category = repository.save(mapper.mapToCategoryEntity(categoryDto, category));
         return mapper.mapToCategoryDto(category);
     }
@@ -50,6 +51,8 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryDto> categoryDtoList = mapper.mapToCategoryDtos(repository.findAll());
         return new PageImpl<>(categoryDtoList, pageable, categoryDtoList.size());
     }
+
+
 
     @Override
     public void deleteCategory(Long id) {

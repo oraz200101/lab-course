@@ -53,10 +53,10 @@ public class Course extends BaseEntity {
     @Column(name = "date_time_update")
     private LocalDateTime dateTimeUpdate;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE})
     private List<Objective> objectives;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE})
     private List<Section> sections;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -67,6 +67,9 @@ public class Course extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private User author;
+    @JoinColumn(name = "buy_count")
+    private Long buyCount;
 
-
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<UserCourseLink> courseLinks;
 }

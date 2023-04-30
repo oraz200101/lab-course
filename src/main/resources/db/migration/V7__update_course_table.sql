@@ -1,0 +1,1 @@
+ALTER TABLE lab_course.courses ADD COLUMN buy_count BIGINT;

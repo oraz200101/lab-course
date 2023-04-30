@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ObjectiveDto {
+    private Long courseId;
     private String title;
 
 }

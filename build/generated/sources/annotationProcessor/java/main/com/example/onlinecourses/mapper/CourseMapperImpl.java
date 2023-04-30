@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-04-27T17:58:41+0600",
+    date = "2023-04-30T06:06:42+0600",
     comments = "version: 1.5.4.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 @Component
@@ -35,6 +35,7 @@ public class CourseMapperImpl implements CourseMapper {
 
         Module module = new Module();
 
+        module.setSection( moduleDtoToSection( moduleDto ) );
         module.setTitle( moduleDto.getTitle() );
         module.setVideoLink( moduleDto.getVideoLink() );
         module.setDuration( moduleDto.getDuration() );
@@ -64,6 +65,7 @@ public class CourseMapperImpl implements CourseMapper {
 
         ModuleDto moduleDto = new ModuleDto();
 
+        moduleDto.setSectionId( moduleSectionId( module ) );
         moduleDto.setTitle( module.getTitle() );
         moduleDto.setVideoLink( module.getVideoLink() );
         moduleDto.setDuration( module.getDuration() );
@@ -93,6 +95,7 @@ public class CourseMapperImpl implements CourseMapper {
 
         Section section = new Section();
 
+        section.setCourse( sectionDtoToCourse( sectionDto ) );
         section.setModules( mapToModuleEntities( sectionDto.getModuleDtos() ) );
         section.setTitle( sectionDto.getTitle() );
 
@@ -122,6 +125,7 @@ public class CourseMapperImpl implements CourseMapper {
         SectionDto sectionDto = new SectionDto();
 
         sectionDto.setModuleDtos( mapToModuleDtos( section.getModules() ) );
+        sectionDto.setCourseId( sectionCourseId( section ) );
         sectionDto.setTitle( section.getTitle() );
 
         return sectionDto;
@@ -240,6 +244,8 @@ public class CourseMapperImpl implements CourseMapper {
         }
         courseDto.setTotalHours( course.getTotalHours() );
 
+        courseDto.setLecturesQuantity( course.getSections()!= null ? course.getSections().size():0 );
+
         return courseDto;
     }
 
@@ -258,11 +264,28 @@ public class CourseMapperImpl implements CourseMapper {
         courseResponseDto.setPrice( course.getPrice() );
         courseResponseDto.setRating( course.getRating() );
         courseResponseDto.setTotalHours( course.getTotalHours() );
+        courseResponseDto.setBuyCount( course.getBuyCount() );
         if ( course.getLanguage() != null ) {
             courseResponseDto.setLanguage( course.getLanguage().name() );
         }
 
+        courseResponseDto.setLecturesQuantity( course.getSections()!= null ? course.getSections().size():0 );
+
         return courseResponseDto;
+    }
+
+    @Override
+    public List<CourseResponseDto> mapToCourseResponseDtos(List<Course> courses) {
+        if ( courses == null ) {
+            return null;
+        }
+
+        List<CourseResponseDto> list = new ArrayList<CourseResponseDto>( courses.size() );
+        for ( Course course : courses ) {
+            list.add( mapToCourseResponseDto( course ) );
+        }
+
+        return list;
     }
 
     @Override
@@ -280,6 +303,60 @@ public class CourseMapperImpl implements CourseMapper {
         fileDto.setUploadDate( fileStorage.getUploadDate() );
 
         return fileDto;
+    }
+
+    protected Section moduleDtoToSection(ModuleDto moduleDto) {
+        if ( moduleDto == null ) {
+            return null;
+        }
+
+        Section section = new Section();
+
+        section.setId( moduleDto.getSectionId() );
+
+        return section;
+    }
+
+    private Long moduleSectionId(Module module) {
+        if ( module == null ) {
+            return null;
+        }
+        Section section = module.getSection();
+        if ( section == null ) {
+            return null;
+        }
+        Long id = section.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    protected Course sectionDtoToCourse(SectionDto sectionDto) {
+        if ( sectionDto == null ) {
+            return null;
+        }
+
+        Course course = new Course();
+
+        course.setId( sectionDto.getCourseId() );
+
+        return course;
+    }
+
+    private Long sectionCourseId(Section section) {
+        if ( section == null ) {
+            return null;
+        }
+        Course course = section.getCourse();
+        if ( course == null ) {
+            return null;
+        }
+        Long id = course.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
     }
 
     protected Category courseDtoToCategory(CourseDto courseDto) {

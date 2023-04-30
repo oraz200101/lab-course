@@ -30,6 +30,8 @@ public class CourseDto {
 
     private Long categoryId;
 
+    private Integer lecturesQuantity;
+
     private List<SectionDto> sectionDtos;
 
 

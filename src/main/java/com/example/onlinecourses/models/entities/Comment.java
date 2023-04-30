@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "comments", schema = "lab_course")
 public class Comment extends BaseEntity {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Course course;
     @Column(name = "text")
     private String text;
 

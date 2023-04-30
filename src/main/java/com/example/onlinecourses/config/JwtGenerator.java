@@ -38,7 +38,7 @@ public class JwtGenerator {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e){
-            throw new JwtTokenInvalidException();
+            throw new JwtTokenInvalidException("Token invalid exception");
         }
 
     }

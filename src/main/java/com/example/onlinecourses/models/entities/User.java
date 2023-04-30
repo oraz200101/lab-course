@@ -5,10 +5,7 @@ import com.example.onlinecourses.models.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,8 +19,9 @@ import java.util.Set;
 @Table(name = "users", schema = "lab_course")
 @Getter
 @Setter
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends BaseEntity implements UserDetails {
     @Column(name = "full_name")
     private String fullName;
@@ -51,6 +49,8 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Role> roles;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<UserCourseLink> userCourseLinks;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

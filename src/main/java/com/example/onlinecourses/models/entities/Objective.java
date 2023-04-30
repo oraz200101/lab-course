@@ -3,6 +3,7 @@ package com.example.onlinecourses.models.entities;
 import com.example.onlinecourses.models.entities.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @EqualsAndHashCode(callSuper = true)

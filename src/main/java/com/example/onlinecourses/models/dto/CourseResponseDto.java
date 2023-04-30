@@ -19,11 +19,11 @@ public class CourseResponseDto {
 
     private BigDecimal rating;
 
-//    private String image;
+    private FileDto fileDto;
 
     private Long totalHours;
-
+    private Long buyCount;
     private String language;
 
-    private Long lecturesQuantity;
+    private Integer lecturesQuantity;
 }

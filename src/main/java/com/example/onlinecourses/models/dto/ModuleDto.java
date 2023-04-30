@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ModuleDto {
+    private Long sectionId;
     private String title;
 
     private String videoLink;

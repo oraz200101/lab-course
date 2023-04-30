@@ -18,5 +18,7 @@ spring:
 server:
   servlet:
     contextPath: ${ROOT_URL:/api}
+  error:
+    include-stacktrace: never
 
 

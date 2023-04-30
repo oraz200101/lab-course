@@ -1,6 +1,7 @@
 package com.example.onlinecourses.service.impl;
 
 import com.example.onlinecourses.exception.domain.CustomValidationException;
+import com.example.onlinecourses.exception.domain.NotFoundException;
 import com.example.onlinecourses.models.entities.Course;
 import com.example.onlinecourses.models.entities.FileStorage;
 import com.example.onlinecourses.repository.CourseRepository;
@@ -32,12 +33,12 @@ public class FileStorageServiceImpl implements FileStorageService {
             fileStorage=fileStorageRepository.save(fileStorage);
             return fileStorage;
         } catch (IOException ex) {
-            throw new RuntimeException("Не удалось сохранить файл Пожалуйста, попробуйте еще раз!");
+            throw new CustomValidationException("Не удалось сохранить файл Пожалуйста, попробуйте еще раз!");
         }
     }
 
     @Override
     public FileStorage getByFileId(String fileId) {
-        return fileStorageRepository.findById(fileId).orElseThrow(() -> new RuntimeException("file not found by id"));
+        return fileStorageRepository.findById(fileId).orElseThrow(() -> new NotFoundException("file not found by id"));
     }
 }

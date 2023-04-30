@@ -26,7 +26,11 @@ public class QCourse extends EntityPathBase<Course> {
 
     public final QUser author;
 
+    public final NumberPath<Long> buyCount = createNumber("buyCount", Long.class);
+
     public final QCategory category;
+
+    public final ListPath<UserCourseLink, QUserCourseLink> courseLinks = this.<UserCourseLink, QUserCourseLink>createList("courseLinks", UserCourseLink.class, QUserCourseLink.class, PathInits.DIRECT2);
 
     public final DateTimePath<java.time.LocalDateTime> dateTimeCreate = createDateTime("dateTimeCreate", java.time.LocalDateTime.class);
 
