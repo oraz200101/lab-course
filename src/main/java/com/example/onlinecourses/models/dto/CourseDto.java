@@ -34,5 +34,5 @@ public class CourseDto {
 
     private List<SectionDto> sectionDtos;
 
-
+    private List<CommentDto> commentDtos;
 }

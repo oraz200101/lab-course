@@ -30,6 +30,8 @@ public class QCourse extends EntityPathBase<Course> {
 
     public final QCategory category;
 
+    public final ListPath<Comment, QComment> comments = this.<Comment, QComment>createList("comments", Comment.class, QComment.class, PathInits.DIRECT2);
+
     public final ListPath<UserCourseLink, QUserCourseLink> courseLinks = this.<UserCourseLink, QUserCourseLink>createList("courseLinks", UserCourseLink.class, QUserCourseLink.class, PathInits.DIRECT2);
 
     public final DateTimePath<java.time.LocalDateTime> dateTimeCreate = createDateTime("dateTimeCreate", java.time.LocalDateTime.class);

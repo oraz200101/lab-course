@@ -19,7 +19,6 @@ import java.util.List;
 public class Section extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Course course;
 
     @Column(name = "title")

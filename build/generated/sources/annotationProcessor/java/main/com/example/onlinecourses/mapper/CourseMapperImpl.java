@@ -1,12 +1,15 @@
 package com.example.onlinecourses.mapper;
 
+import com.example.onlinecourses.models.dto.CommentDto;
 import com.example.onlinecourses.models.dto.CourseDto;
 import com.example.onlinecourses.models.dto.CourseResponseDto;
 import com.example.onlinecourses.models.dto.FileDto;
 import com.example.onlinecourses.models.dto.ModuleDto;
 import com.example.onlinecourses.models.dto.ObjectiveDto;
 import com.example.onlinecourses.models.dto.SectionDto;
+import com.example.onlinecourses.models.dto.UserResponseDto;
 import com.example.onlinecourses.models.entities.Category;
+import com.example.onlinecourses.models.entities.Comment;
 import com.example.onlinecourses.models.entities.Course;
 import com.example.onlinecourses.models.entities.CourseLanguage;
 import com.example.onlinecourses.models.entities.FileStorage;
@@ -21,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-04-30T06:06:42+0600",
+    date = "2023-05-01T23:07:34+0600",
     comments = "version: 1.5.4.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 @Component
@@ -224,6 +227,63 @@ public class CourseMapperImpl implements CourseMapper {
     }
 
     @Override
+    public Course mapToCourseEntity(Course course, CourseDto courseDto) {
+        if ( courseDto == null ) {
+            return course;
+        }
+
+        if ( course.getCategory() == null ) {
+            course.setCategory( new Category() );
+        }
+        courseDtoToCategory1( courseDto, course.getCategory() );
+        if ( course.getSections() != null ) {
+            List<Section> list = mapToSectionEntities( courseDto.getSectionDtos() );
+            if ( list != null ) {
+                course.getSections().clear();
+                course.getSections().addAll( list );
+            }
+            else {
+                course.setSections( null );
+            }
+        }
+        else {
+            List<Section> list = mapToSectionEntities( courseDto.getSectionDtos() );
+            if ( list != null ) {
+                course.setSections( list );
+            }
+        }
+        if ( course.getObjectives() != null ) {
+            List<Objective> list1 = mapToObjectiveDtos( courseDto.getObjectiveDtos() );
+            if ( list1 != null ) {
+                course.getObjectives().clear();
+                course.getObjectives().addAll( list1 );
+            }
+            else {
+                course.setObjectives( null );
+            }
+        }
+        else {
+            List<Objective> list1 = mapToObjectiveDtos( courseDto.getObjectiveDtos() );
+            if ( list1 != null ) {
+                course.setObjectives( list1 );
+            }
+        }
+        course.setTitle( courseDto.getTitle() );
+        course.setDescription( courseDto.getDescription() );
+        course.setPrice( courseDto.getPrice() );
+        course.setRating( courseDto.getRating() );
+        if ( courseDto.getLanguage() != null ) {
+            course.setLanguage( Enum.valueOf( CourseLanguage.class, courseDto.getLanguage() ) );
+        }
+        else {
+            course.setLanguage( null );
+        }
+        course.setTotalHours( courseDto.getTotalHours() );
+
+        return course;
+    }
+
+    @Override
     public CourseDto mapToCourseDto(Course course) {
         if ( course == null ) {
             return null;
@@ -234,6 +294,7 @@ public class CourseMapperImpl implements CourseMapper {
         courseDto.setSectionDtos( mapToSectionDtos( course.getSections() ) );
         courseDto.setObjectiveDtos( mapToObjectiveEntities( course.getObjectives() ) );
         courseDto.setCategoryId( courseCategoryId( course ) );
+        courseDto.setCommentDtos( commentListToCommentDtoList( course.getComments() ) );
         courseDto.setId( course.getId() );
         courseDto.setTitle( course.getTitle() );
         courseDto.setDescription( course.getDescription() );
@@ -258,6 +319,7 @@ public class CourseMapperImpl implements CourseMapper {
         CourseResponseDto courseResponseDto = new CourseResponseDto();
 
         courseResponseDto.setAuthor( courseAuthorFullName( course ) );
+        courseResponseDto.setCommentDtos( commentListToCommentDtoList( course.getComments() ) );
         courseResponseDto.setId( course.getId() );
         courseResponseDto.setTitle( course.getTitle() );
         courseResponseDto.setDescription( course.getDescription() );
@@ -371,6 +433,14 @@ public class CourseMapperImpl implements CourseMapper {
         return category;
     }
 
+    protected void courseDtoToCategory1(CourseDto courseDto, Category mappingTarget) {
+        if ( courseDto == null ) {
+            return;
+        }
+
+        mappingTarget.setId( courseDto.getCategoryId() );
+    }
+
     private Long courseCategoryId(Course course) {
         if ( course == null ) {
             return null;
@@ -384,6 +454,48 @@ public class CourseMapperImpl implements CourseMapper {
             return null;
         }
         return id;
+    }
+
+    protected UserResponseDto userToUserResponseDto(User user) {
+        if ( user == null ) {
+            return null;
+        }
+
+        UserResponseDto userResponseDto = new UserResponseDto();
+
+        userResponseDto.setId( user.getId() );
+        userResponseDto.setFullName( user.getFullName() );
+        userResponseDto.setEmail( user.getEmail() );
+
+        return userResponseDto;
+    }
+
+    protected CommentDto commentToCommentDto(Comment comment) {
+        if ( comment == null ) {
+            return null;
+        }
+
+        CommentDto commentDto = new CommentDto();
+
+        commentDto.setText( comment.getText() );
+        commentDto.setRating( comment.getRating() );
+        commentDto.setDateTimeCreate( comment.getDateTimeCreate() );
+        commentDto.setCreatedBy( userToUserResponseDto( comment.getCreatedBy() ) );
+
+        return commentDto;
+    }
+
+    protected List<CommentDto> commentListToCommentDtoList(List<Comment> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<CommentDto> list1 = new ArrayList<CommentDto>( list.size() );
+        for ( Comment comment : list ) {
+            list1.add( commentToCommentDto( comment ) );
+        }
+
+        return list1;
     }
 
     private String courseAuthorFullName(Course course) {

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/public")
@@ -58,6 +59,10 @@ public class PublicController {
     @GetMapping("/course/{id}")
     ResponseEntity<?> getCourseById(@PathVariable Long id) {
         return ResponseEntity.ok(courseService.getBySubscriptionOrNot(id));
+    }
+    @GetMapping("/courses/subscription")
+    ResponseEntity<List<CourseResponseDto>> getBySubscription(){
+        return ResponseEntity.ok(courseService.getBySubscription());
     }
 
 }

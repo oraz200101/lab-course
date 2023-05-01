@@ -9,17 +9,29 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface CourseTeacherService {
-    CourseDto createCourse(CourseDto courseDto,MultipartFile file);
+    CourseDto createCourse(CourseDto courseDto, MultipartFile file);
 
     Page<CourseResponseDto> getCourseAll(Pageable pageable, BigDecimal rating, CourseHoursEnum hours, SortEnum sort);
 
     CourseResponseDto getById(Long id);
+
+    void buyCourseSubscription(Long id);
 
     CourseDto getBySubscription(Long id);
 
     CourseDto buyCourse(Long id);
 
     Object getBySubscriptionOrNot(Long id);
+
+    Page<CourseDto> teacherCourses(Pageable pageable);
+
+    CourseDto teacherCourse(Long courseId);
+
+    CourseDto updateCourse(CourseDto courseDto);
+
+    List<CourseResponseDto> getBySubscription();
+    void deleteById(Long courseId);
 }

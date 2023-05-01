@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.security.Security;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,12 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
     @Override
     public User getCurrentPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return repository.findByEmail(authentication.getName()).orElseThrow();
+        Optional<User> user = repository.findByEmail(authentication.getName());
+        if (user.isEmpty()) {
+            return null;
+        } else {
+            return user.orElseThrow();
+        }
+
     }
 }

@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,6 +71,31 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
 
     @Override
     @Transactional
+    public CourseDto updateCourse(CourseDto courseDto) {
+        Course course = repository.findByIdAndAuthor_Id(courseDto.getId(), authenticationFacade.getCurrentPrincipal().getId()).orElseThrow(() -> new NotFoundException("course with " + courseDto.getId() + "not found"));
+        course = mapper.mapToCourseEntity(course, courseDto);
+        course.setSubscription(course.getSubscription());
+        course = repository.save(course);
+        sectionRepository.saveAll(setSectionsToCourse(course, courseDto));
+        objectiveRepository.saveAll(setObjectivesToCourse(course, courseDto));
+        FileDto fileDto = fileDtoBuilder(course.getImage());
+        CourseDto newCourseDto = mapper.mapToCourseDto(course);
+        newCourseDto.setFileDto(fileDto);
+        return newCourseDto;
+    }
+
+    @Override
+    public List<CourseResponseDto> getBySubscription() {
+        return mapper.mapToCourseResponseDtos(repository.findBySubscription());
+    }
+
+    @Override
+    public void deleteById(Long courseId) {
+        repository.deleteByIdAndAuthorId(courseId, authenticationFacade.getCurrentPrincipal().getId());
+    }
+
+    @Override
+    @Transactional
     public Page<CourseResponseDto> getCourseAll(Pageable pageable, BigDecimal rating, CourseHoursEnum hours, SortEnum sort) {
         String sort1;
         if (sort != null) {
@@ -92,7 +118,9 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
             courseResponseDto.setFileDto(fileDtoBuilder(c.getImage()));
             return courseResponseDto;
         }).toList();
-        return new PageImpl<>(courseResponseDtos, pageable, courseResponseDtos.size());
+        int start = (int) pageable.getOffset();
+        int end = (Math.min((start + pageable.getPageSize()), courseResponseDtos.size()));
+        return new PageImpl<>(courseResponseDtos.subList(start,end), pageable, courseResponseDtos.size());
     }
 
 
@@ -104,21 +132,54 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
         UserCourseLink userCourseLink = new UserCourseLink();
         userCourseLink.setCourse(course);
         userCourseLink.setUser(user);
+        courseLinkRepository.save(userCourseLink);
+        if (course.getBuyCount() != null) {
+            course.setBuyCount(course.getBuyCount() + 1L);
+        }
+        course.setBuyCount(1L);
+        repository.save(course);
         return mapper.mapToCourseDto(course);
     }
 
     @Override
     @Transactional
     public Object getBySubscriptionOrNot(Long id) {
-        Long userId = authenticationFacade.getCurrentPrincipal().getId();
-        if (courseLinkRepository.existsByCourse_IdAndUser_Id(id, userId)) {
-            return getBySubscription(id);
+        if (authenticationFacade.getCurrentPrincipal() != null) {
+            Long userId = authenticationFacade.getCurrentPrincipal().getId();
+            if (courseLinkRepository.existsByCourse_IdAndUser_Id(id, userId)) {
+                return getBySubscription(id);
+            } else {
+                return getById(id);
+            }
         } else {
             return getById(id);
         }
     }
 
     @Override
+    @Transactional
+    public Page<CourseDto> teacherCourses(Pageable pageable) {
+        List<Course> courses = repository.findByAuthor_Id(authenticationFacade.getCurrentPrincipal().getId());
+        List<CourseDto> courseDtos = courses.stream().map(c -> {
+            CourseDto courseDto = mapper.mapToCourseDto(c);
+            courseDto.setFileDto(fileDtoBuilder(c.getImage()));
+            return courseDto;
+        }).toList();
+        int start = (int) pageable.getOffset();
+        int end = (Math.min((start + pageable.getPageSize()), courseDtos.size()));
+        return new PageImpl<>(courseDtos.subList(start, end), pageable, courseDtos.size());
+    }
+
+    @Override
+    public CourseDto teacherCourse(Long courseId) {
+        Course course = repository.findByIdAndAuthor_Id(courseId, authenticationFacade.getCurrentPrincipal().getId()).orElseThrow(() -> new NotFoundException("course with " + courseId + " not found"));
+        CourseDto courseDto = mapper.mapToCourseDto(course);
+        courseDto.setFileDto(fileDtoBuilder(course.getImage()));
+        return courseDto;
+    }
+
+    @Override
+    @Transactional
     public CourseResponseDto getById(Long id) {
         Course course = repository.findById(id).orElseThrow(() -> new NotFoundException("course with " + id + " not found"));
         CourseResponseDto courseResponseDto = mapper.mapToCourseResponseDto(course);
@@ -127,6 +188,14 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
     }
 
     @Override
+    public void buyCourseSubscription(Long id) {
+        Course course = repository.findByIdAndAuthor_Id(id, authenticationFacade.getCurrentPrincipal().getId()).orElseThrow(() -> new NotFoundException("course with " + id + " not found"));
+        course.setSubscription(Boolean.TRUE);
+        repository.save(course);
+    }
+
+    @Override
+    @Transactional
     public CourseDto getBySubscription(Long id) {
         Course course = repository.findByIdAndCourseLinks_User_Id(id, authenticationFacade.getCurrentPrincipal().getId()).orElseThrow(() -> new CustomValidationException("You have not subscription"));
         CourseDto courseDto = mapper.mapToCourseDto(course);

@@ -53,12 +53,13 @@ public class Course extends BaseEntity {
     @Column(name = "date_time_update")
     private LocalDateTime dateTimeUpdate;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE})
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private List<Objective> objectives;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE})
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
     private List<Section> sections;
-
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+    private List<Comment> comments;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;

@@ -48,10 +48,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Page<CategoryDto> getAll(Pageable pageable) {
-        List<CategoryDto> categoryDtoList = mapper.mapToCategoryDtos(repository.findAll());
-        return new PageImpl<>(categoryDtoList, pageable, categoryDtoList.size());
-    }
 
+        List<CategoryDto> categoryDtoList = mapper.mapToCategoryDtos(repository.findAll());
+        int start = (int) pageable.getOffset();
+        int end = (Math.min((start + pageable.getPageSize()), categoryDtoList.size()));
+        return new PageImpl<>(categoryDtoList.subList(start, end), pageable, categoryDtoList.size());
+    }
 
 
     @Override
@@ -61,8 +63,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public TagDto createTag(TagDto tagDto) {
-        Tag tag= mapper.mapToTagEntity(tagDto);
-        tag=tagRepository.save(tag);
+        Tag tag = mapper.mapToTagEntity(tagDto);
+        tag = tagRepository.save(tag);
         return mapper.mapToTagDto(tag);
     }
 }

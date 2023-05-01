@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class CourseResponseDto {
@@ -26,4 +28,6 @@ public class CourseResponseDto {
     private String language;
 
     private Integer lecturesQuantity;
+
+    private List<CommentDto> commentDtos;
 }

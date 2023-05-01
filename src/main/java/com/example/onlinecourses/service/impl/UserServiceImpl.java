@@ -98,8 +98,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public String updateProfile(UserRegisterDto userRegisterDto) {
         Long userId = authenticationFacade.getCurrentPrincipal().getId();
-        User user=userRepository.findById(userId).orElseThrow();
-        user=userMapper.mapToUserEntity(user,userRegisterDto);
+        User user = userRepository.findById(userId).orElseThrow();
+        user = userMapper.mapToUserEntity(user, userRegisterDto);
         userRepository.save(user);
         return "Your account information is updated";
     }
@@ -119,6 +119,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.mapToUserResponseDto(userRepository.findById(id).orElseThrow(() -> new NotFoundException("not found " + id)));
     }
 
+
     private void validateRegister(UserRegisterDto userRegisterDto) {
         if (userRepository.existsByEmail(userRegisterDto.getEmail())) {
             throw new CustomValidationException(USER_EMAIL_ALREADY_EXISTS_MESSAGE, null);
@@ -129,7 +130,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("user not found by email"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("user not found by email"));
     }
 
 
