@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -89,6 +88,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
         return mapper.mapToCourseResponseDtos(repository.findBySubscription());
     }
 
+
     @Override
     public void deleteById(Long courseId) {
         repository.deleteByIdAndAuthorId(courseId, authenticationFacade.getCurrentPrincipal().getId());
@@ -120,9 +120,22 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
         }).toList();
         int start = (int) pageable.getOffset();
         int end = (Math.min((start + pageable.getPageSize()), courseResponseDtos.size()));
-        return new PageImpl<>(courseResponseDtos.subList(start,end), pageable, courseResponseDtos.size());
+        return new PageImpl<>(courseResponseDtos.subList(start, end), pageable, courseResponseDtos.size());
     }
 
+    @Override
+    @Transactional
+    public Page<CourseResponseDto> getBySearch(String title, Pageable pageable) {
+        List<Course> courses = repository.findByTitleLike(title);
+        List<CourseResponseDto> courseResponseDtos = courses.stream().map(c -> {
+            CourseResponseDto courseResponseDto = mapper.mapToCourseResponseDto(c);
+            courseResponseDto.setFileDto(fileDtoBuilder(c.getImage()));
+            return courseResponseDto;
+        }).toList();
+        int start = (int) pageable.getOffset();
+        int end = (Math.min((start + pageable.getPageSize()), courseResponseDtos.size()));
+        return new PageImpl<>(courseResponseDtos.subList(start, end), pageable, courseResponseDtos.size());
+    }
 
     @Override
     @Transactional

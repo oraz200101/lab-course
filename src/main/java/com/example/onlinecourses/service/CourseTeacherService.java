@@ -33,5 +33,8 @@ public interface CourseTeacherService {
     CourseDto updateCourse(CourseDto courseDto);
 
     List<CourseResponseDto> getBySubscription();
+
+    Page<CourseResponseDto> getBySearch(String title,Pageable pageable);
+
     void deleteById(Long courseId);
 }

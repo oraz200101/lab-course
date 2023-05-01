@@ -60,8 +60,16 @@ public class PublicController {
     ResponseEntity<?> getCourseById(@PathVariable Long id) {
         return ResponseEntity.ok(courseService.getBySubscriptionOrNot(id));
     }
+
+    @GetMapping("/course/search")
+    ResponseEntity<Page<CourseResponseDto>> getBySearch(@RequestParam(name = "title") String title,
+                                                        @RequestParam(defaultValue = "0", name = "page") Integer page,
+                                                        @RequestParam(defaultValue = "10", name = "count") Integer count) {
+        return ResponseEntity.ok(courseService.getBySearch(title, PageRequest.of(page, count)));
+    }
+
     @GetMapping("/courses/subscription")
-    ResponseEntity<List<CourseResponseDto>> getBySubscription(){
+    ResponseEntity<List<CourseResponseDto>> getBySubscription() {
         return ResponseEntity.ok(courseService.getBySubscription());
     }
 

@@ -39,6 +39,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             @Param("hours") String hours,
             @Param("sort") String sort);
 
+    @Query("select c from Course c where lower(c.title)  like %:title%")
+    List<Course> findByTitleLike(@Param("title") String title);
+
     @Query("select c from Course c inner join c.courseLinks courseLinks where c.id = ?1 and courseLinks.user.id = ?2")
     Optional<Course> findByIdAndCourseLinks_User_Id(Long id, Long id1);
 
