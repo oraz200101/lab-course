@@ -38,5 +38,7 @@ public interface CourseTeacherService {
 
     Page<CourseResponseDto> getBySearch(String title,Pageable pageable);
 
+    Page<CourseResponseDto> userCourses(Pageable pageable);
+
     void deleteById(Long courseId);
 }

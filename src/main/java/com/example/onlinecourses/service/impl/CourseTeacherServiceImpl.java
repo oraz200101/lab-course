@@ -145,6 +145,20 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
     }
 
     @Override
+    public Page<CourseResponseDto> userCourses(Pageable pageable) {
+        Long currentUserId = authenticationFacade.getCurrentPrincipal().getId();
+        List<Course> courses = repository.findByCourseLinks_User_Id(currentUserId);
+        List<CourseResponseDto> courseResponseDtos = courses.stream().map(c -> {
+            CourseResponseDto courseResponseDto = mapper.mapToCourseResponseDto(c);
+            courseResponseDto.setFileDto(fileDtoBuilder(c.getImage()));
+            return courseResponseDto;
+        }).toList();
+        int start = (int) pageable.getOffset();
+        int end = (Math.min((start + pageable.getPageSize()), courseResponseDtos.size()));
+        return new PageImpl<>(courseResponseDtos.subList(start, end), pageable, courseResponseDtos.size());
+    }
+
+    @Override
     @Transactional
     public CourseDto buyCourse(Long courseId) {
         Course course = repository.findById(courseId).orElseThrow(() -> new NotFoundException("course with " + courseId + "not found"));

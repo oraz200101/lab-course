@@ -20,5 +20,6 @@ server:
     contextPath: ${ROOT_URL:/api}
   error:
     include-stacktrace: never
-
-
+app:
+  cors:
+    allowed-origins: "*"
