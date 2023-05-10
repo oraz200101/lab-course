@@ -11,12 +11,12 @@ import com.example.onlinecourses.models.dto.UserResponseDto;
 import com.example.onlinecourses.models.entities.Category;
 import com.example.onlinecourses.models.entities.Comment;
 import com.example.onlinecourses.models.entities.Course;
-import com.example.onlinecourses.models.entities.CourseLanguage;
 import com.example.onlinecourses.models.entities.FileStorage;
 import com.example.onlinecourses.models.entities.Module;
 import com.example.onlinecourses.models.entities.Objective;
 import com.example.onlinecourses.models.entities.Section;
 import com.example.onlinecourses.models.entities.User;
+import com.example.onlinecourses.models.enums.CourseLanguage;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-01T23:07:34+0600",
+    date = "2023-05-03T16:26:36+0600",
     comments = "version: 1.5.4.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 @Component

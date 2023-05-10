@@ -2,6 +2,7 @@ package com.example.onlinecourses.controller;
 
 import com.example.onlinecourses.models.dto.CategoryDto;
 import com.example.onlinecourses.models.dto.CourseDto;
+import com.example.onlinecourses.models.dto.CourseRequestParamDto;
 import com.example.onlinecourses.models.dto.CourseResponseDto;
 import com.example.onlinecourses.models.enums.CourseHoursEnum;
 import com.example.onlinecourses.models.enums.SortEnum;
@@ -55,6 +56,11 @@ public class PublicController {
         }
         return ResponseEntity.ok(courseService.getCourseAll(PageRequest.of(page, count), rating, hours1, sort1));
     }
+
+//    @GetMapping("/course/all/v2")
+//    ResponseEntity<Page<CourseResponseDto>> getAllCourseV2(@RequestBody CourseRequestParamDto requestParamDto) {
+//        return ResponseEntity.ok()
+//    }
 
     @GetMapping("/course/{id}")
     ResponseEntity<?> getCourseById(@PathVariable Long id) {

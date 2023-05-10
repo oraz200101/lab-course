@@ -1,6 +1,7 @@
 package com.example.onlinecourses.models.entities;
 
 import com.example.onlinecourses.models.entities.base.BaseEntity;
+import com.example.onlinecourses.models.enums.CourseLanguage;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

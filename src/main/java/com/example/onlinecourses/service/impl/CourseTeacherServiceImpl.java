@@ -6,6 +6,7 @@ import com.example.onlinecourses.exception.domain.NotFoundException;
 import com.example.onlinecourses.mapper.CourseMapper;
 import com.example.onlinecourses.mapper.FileMapper;
 import com.example.onlinecourses.models.dto.CourseDto;
+import com.example.onlinecourses.models.dto.CourseRequestParamDto;
 import com.example.onlinecourses.models.dto.CourseResponseDto;
 import com.example.onlinecourses.models.dto.FileDto;
 import com.example.onlinecourses.models.entities.*;
@@ -121,6 +122,12 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
         int start = (int) pageable.getOffset();
         int end = (Math.min((start + pageable.getPageSize()), courseResponseDtos.size()));
         return new PageImpl<>(courseResponseDtos.subList(start, end), pageable, courseResponseDtos.size());
+    }
+
+    @Override
+    @Transactional
+    public Page<CourseResponseDto> getAllCourseV2(CourseRequestParamDto requestParamDto) {
+        return null;
     }
 
     @Override

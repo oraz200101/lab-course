@@ -45,7 +45,7 @@ public class QCourse extends EntityPathBase<Course> {
 
     public final QFileStorage image;
 
-    public final EnumPath<CourseLanguage> language = createEnum("language", CourseLanguage.class);
+    public final EnumPath<com.example.onlinecourses.models.enums.CourseLanguage> language = createEnum("language", com.example.onlinecourses.models.enums.CourseLanguage.class);
 
     public final ListPath<Objective, QObjective> objectives = this.<Objective, QObjective>createList("objectives", Objective.class, QObjective.class, PathInits.DIRECT2);
 

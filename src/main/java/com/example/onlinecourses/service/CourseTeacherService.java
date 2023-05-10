@@ -1,7 +1,9 @@
 package com.example.onlinecourses.service;
 
 import com.example.onlinecourses.models.dto.CourseDto;
+import com.example.onlinecourses.models.dto.CourseRequestParamDto;
 import com.example.onlinecourses.models.dto.CourseResponseDto;
+import com.example.onlinecourses.models.entities.Course;
 import com.example.onlinecourses.models.enums.CourseHoursEnum;
 import com.example.onlinecourses.models.enums.SortEnum;
 import org.springframework.data.domain.Page;
@@ -15,7 +17,7 @@ public interface CourseTeacherService {
     CourseDto createCourse(CourseDto courseDto, MultipartFile file);
 
     Page<CourseResponseDto> getCourseAll(Pageable pageable, BigDecimal rating, CourseHoursEnum hours, SortEnum sort);
-
+    Page<CourseResponseDto> getAllCourseV2(CourseRequestParamDto requestParamDto);
     CourseResponseDto getById(Long id);
 
     void buyCourseSubscription(Long id);

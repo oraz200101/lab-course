@@ -27,6 +27,5 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
         } else {
             return user.orElseThrow();
         }
-
     }
 }
