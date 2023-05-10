@@ -145,6 +145,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
     }
 
     @Override
+    @Transactional
     public Page<CourseResponseDto> userCourses(Pageable pageable) {
         Long currentUserId = authenticationFacade.getCurrentPrincipal().getId();
         List<Course> courses = repository.findByCourseLinks_User_Id(currentUserId);
