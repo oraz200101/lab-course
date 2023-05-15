@@ -32,7 +32,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             " OR (:hours='MORE_SEVENTEEN' AND c.totalHours>17))" +
             " ORDER BY CASE " +
             "WHEN (:sort='MOST_POPULAR') THEN c.buyCount " +
-            "WHEN (:sort='HIGH_RATING') THEN c.rating END DESC "
+            "WHEN (:sort='HIGH_RATING') THEN c.rating " +
+            "END DESC NULLS LAST , " +
+            "c.dateTimeCreate ASC NULLS FIRST "
     )
     List<Course> findByRating(
             @Param("rating") BigDecimal rating,
@@ -44,7 +46,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Query("select c from Course c inner join c.courseLinks courseLinks where courseLinks.user.id = ?1")
     List<Course> findByCourseLinks_User_Id(Long id);
-
 
 
     @Query("select c from Course c inner join c.courseLinks courseLinks where c.id = ?1 and courseLinks.user.id = ?2")
