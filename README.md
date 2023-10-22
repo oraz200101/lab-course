@@ -1,2 +1,2 @@
 # lab-course
-online courses how udemy
+online courses like udemy
